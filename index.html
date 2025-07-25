@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gala Dinner FC: Yên Trí</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #2a2a2a;
+            min-height: 100vh;
+        }
+
+        /* Desktop Layout */
+        @media (min-width: 769px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            }
+        }
+
+        /* Mobile Layout - Full width */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .gala-container {
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 3px solid #7a7a3a;
+        }
+
+        /* Desktop Container */
+        @media (min-width: 769px) {
+            .gala-container {
+                width: 100%;
+                max-width: 500px;
+                height: 700px;
+                border-radius: 8px;
+            }
+        }
+
+        /* Mobile Container - Full screen */
+        @media (max-width: 768px) {
+            .gala-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-image: url('./3.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(122, 122, 58, 0.1) 0%,
+                rgba(122, 122, 58, 0.3) 30%,
+                rgba(122, 122, 58, 0.7) 45%,
+                rgba(122, 122, 58, 0.95) 55%,
+                #7a7a3a 65%,
+                #6a6a32 80%,
+                #5a5a2a 100%
+            );
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px 15px;
+            }
+        }
+
+        .event-title {
+            color: #F5F5DC;
+            font-size: 16px;
+            font-weight: normal;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            margin-top: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .event-title {
+                font-size: 14px;
+            }
+        }
+
+        .main-title {
+            color: #F5F5DC;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 28px;
+            }
+        }
+
+        .subtitle {
+            color: #E6D7C3;
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        .date-section {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .month {
+            color: #E6D7C3;
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .date-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .date-horizontal {
+                gap: 10px;
+            }
+        }
+
+        .day-label {
+            color: #E6D7C3;
+            font-size: 14px;
+            text-decoration: underline;
+            padding: 5px 10px;
+            border: 1px solid #E6D7C3;
+            border-radius: 4px;
+        }
+
+        .date-number {
+            color: #F5F5DC;
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .date-number {
+                font-size: 36px;
+            }
+        }
+
+        .year {
+            color: #E6D7C3;
+            font-size: 16px;
+            padding: 5px 10px;
+            border: 1px solid #E6D7C3;
+            border-radius: 4px;
+        }
+
+        .time-location {
+            color: #E6D7C3;
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .prize-info {
+            color: #E6D7C3;
+            font-size: 12px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .contact-info {
+            color: #E6D7C3;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .menu-button {
+            background: rgba(245, 245, 220, 0.1);
+            border: 2px solid #E6D7C3;
+            color: #E6D7C3;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background: rgba(245, 245, 220, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .decorative-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid rgba(245, 245, 220, 0.3);
+            border-radius: 4px;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        @media (max-width: 768px) {
+            .decorative-border {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+
+        /* Menu Page Styles */
+        .menu-container {
+            background: linear-gradient(135deg, #7a7a3a 0%, #6a6a32 50%, #5a5a2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-decorations {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .palm-leaf {
+            position: absolute;
+            font-size: 40px;
+            color: rgba(0, 0, 0, 0.3);
+            transform: rotate(-15deg);
+        }
+
+        .palm-leaf.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .palm-leaf.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(15deg);
+        }
+
+        .decorative-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star, .snowflake {
+            position: absolute;
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 16px;
+        }
+
+        .menu-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-content {
+                padding: 30px 20px;
+            }
+        }
+
+        .menu-title {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 48px;
+            color: #2a2a2a;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .menu-title {
+                font-size: 36px;
+            }
+        }
+
+        .menu-date-time {
+            color: #2a2a2a;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .menu-items {
+            list-style: none;
+            color: #2a2a2a;
+            font-size: 16px;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+
+        .menu-items li {
+            margin-bottom: 8px;
+        }
+
+        .menu-address {
+            color: #2a2a2a;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(42, 42, 42, 0.1);
+            border: 2px solid #2a2a2a;
+            color: #2a2a2a;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 3;
+        }
+
+        .back-button:hover {
+            background: rgba(42, 42, 42, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Invitation Page -->
+    <div id="main-page" class="page active">
+        <div class="gala-container">
+            <div class="background-image"></div>
+            <div class="gradient-overlay"></div>
+            <div class="decorative-border"></div>
+            
+            <div class="content">
+                <div class="event-title">GALA DINNER</div>
+                <h1 class="main-title">FC: YÊN TRỊ</h1>
+                <div class="subtitle">CHÀY BÙNG CÙNG TRÁI BÓNG</div>
+                
+                <div class="date-section">
+                    <div class="month">July</div>
+                    <div class="date-horizontal">
+                        <div class="day-label">Saturday</div>
+                        <div class="date-number">26</div>
+                        <div class="year">2025</div>
+                    </div>
+                </div>
+                
+                <div class="time-location">
+                    07:00PM TO 22:00PM | SÂN BÓNG PHÚC THÀNH
+                </div>
+                
+                <div class="prize-info">Giải lưu bóng đá | Liên hoan quy thường niên</div>
+                
+                <button class="menu-button" onclick="showMenu()">Xem Thực Đơn</button>
+                
+                <div class="contact-info">Information Contact: 0345 304 709</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Page -->
+    <div id="menu-page" class="page">
+        <div class="gala-container menu-container">
+            <button class="back-button" onclick="showMain()">← Quay lại</button>
+            
+            <div class="menu-decorations">
+                <div class="palm-leaf top-left">🌿</div>
+                <div class="palm-leaf bottom-right">🌿</div>
+                
+                <div class="decorative-elements">
+                    <div class="star" style="top: 15%; left: 20%;">✦</div>
+                    <div class="star" style="top: 25%; right: 15%;">✧</div>
+                    <div class="snowflake" style="top: 35%; left: 10%;">❄</div>
+                    <div class="star" style="top: 45%; right: 25%;">✦</div>
+                    <div class="snowflake" style="bottom: 30%; left: 15%;">❅</div>
+                    <div class="star" style="bottom: 20%; right: 20%;">✧</div>
+                    <div class="star" style="top: 60%; left: 25%;">✦</div>
+                    <div class="star" style="bottom: 40%; right: 10%;">✧</div>
+                </div>
+            </div>
+            
+            <div class="menu-content">
+                <h1 class="menu-title">Dinner Party</h1>
+                
+                <div class="menu-date-time">
+                    25.07.2025<br>
+                    20:30pm
+                </div>
+                
+                <ul class="menu-items">
+                    <li>Lẩu chua cay thập cẩm</li>
+                    <li>Nộm sứa biển</li>
+                    <li>Ếch xào chua cay</li>
+                    <li>Sụ sụ xào tỏi</li>
+                    <li>Nong heo cháy tiêu</li>
+                    <li>Đậu tầm hành</li>
+                </ul>
+                
+                <div class="menu-address">
+                    54 NGÕ 32 ĐỐNG ME<br>
+                    MẼ TRI - NAM TỪ LIÊM
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMenu() {
+            document.getElementById('main-page').classList.remove('active');
+            document.getElementById('menu-page').classList.add('active');
+        }
+
+        function showMain() {
+            document.getElementById('menu-page').classList.remove('active');
+            document.getElementById('main-page').classList.add('active');
+        }
+    </script>
+</body>
+</html>
